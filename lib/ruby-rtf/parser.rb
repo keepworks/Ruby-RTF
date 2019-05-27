@@ -208,7 +208,11 @@ module RubyRTF
                  else
                    [val].pack('U*')
                  end
-          current_section[:text] << char
+          begin
+            current_section[:text] << char
+          rescue Encoding::CompatibilityError => e
+            nil
+          end
         end
 
       when *[:rquote, :lquote] then add_modifier_section({name => true}, "'")
